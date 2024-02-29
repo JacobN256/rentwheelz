@@ -9,19 +9,35 @@
 import React from "react";
 import Link from "next/link";
 import LoginForm from "../components/LoginForm";
+import "../app/globals.css";
+import Navbar from "@/components/Navbar";
 
 const LoginPage: React.FC = () => {
   const handleLoginSubmit = async (formData: any) => {
-    console.log(formData);
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      // Handle the response here
+
+      if (response.status === 200) {
+        const data = await response.json();
+        window.location.href = "/cars";
+      }
+    } catch (error) {
+      // Handle the error here
+    }
   };
 
   return (
-    <div className="login-page">
-      <nav>
-        <Link href="/">RentWheelz</Link>
-        <Link href="/register">Register</Link>
-      </nav>
-      <div className="content">
+    <div className="h-screen">
+      <Navbar links={[{ label: "register", href: "/register" }]} />
+
+      <div className="max-w-[50%] m-auto">
         <LoginForm onSubmit={handleLoginSubmit} />
       </div>
     </div>

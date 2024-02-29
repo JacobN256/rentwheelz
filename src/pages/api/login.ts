@@ -18,16 +18,14 @@ export default function handler(
     req.body.email === "jacob.nix@method.com" &&
     req.body.password
   ) {
-    res
-      .status(200)
-      .json({
-        message: "Login successful",
-        data: {
-          userName: "Jacob Nix",
-          userEmail: "jacob.nix@method.com",
-          proofId: "1234",
-        },
-      });
+    res.status(200).json({
+      message: "Login successful",
+      data: {
+        userName: "Jacob Nix",
+        userEmail: "jacob.nix@method.com",
+        proofId: "1234",
+      },
+    });
   }
 
   res.status(405).json({ message: "Login Failed" });

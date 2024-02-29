@@ -1,63 +1,107 @@
-/*
-    This component is responsible for rendering the register form. It uses the useForm hook to handle the form state and validation.
-    - has title of "Register"
-    - includes form fields for full name, password, confirm password, email, and license number
-    - includes a terms and conditions checkbox
-    - has a register button that is disabled until the form is valid
-    - includes form validation logic for all fields
-    - all fields are required
-    - includes a link to the login page
-*/
-
-import React from 'react';
-import { FieldValues, useForm } from 'react-hook-form';
+import React from "react";
+import { FieldValues, useForm } from "react-hook-form";
+import Link from "next/link";
 
 interface RegisterFormProps {
-    onSubmit: (formData: FieldValues) => void;
+  onSubmit: (formData: FieldValues) => void;
 }
 
 const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-    return (
-        <div>
-            <h2>Register</h2>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <div>
-                    <label htmlFor="fullName">Full Name</label>
-                    <input type="text" id="fullName" {...register('fullName', { required: true })} />
-                    {errors.fullName && <span>This field is required</span>}
-                </div>
-                <div>
-                    <label htmlFor="password">Password</label>
-                    <input type="password" id="password" {...register('password', { required: true })} />
-                    {errors.password && <span>This field is required</span>}
-                </div>
-                <div>
-                    <label htmlFor="confirmPassword">Confirm Password</label>
-                    <input type="password" id="confirmPassword" {...register('confirmPassword', { required: true })} />
-                    {errors.confirmPassword && <span>This field is required</span>}
-                </div>
-                <div>
-                    <label htmlFor="email">Email</label>
-                    <input type="email" id="email" {...register('email', { required: true })} />
-                    {errors.email && <span>This field is required</span>}
-                </div>
-                <div>
-                    <label htmlFor="licenseNumber">License Number</label>
-                    <input type="text" id="licenseNumber" {...register('licenseNumber', { required: true })} />
-                    {errors.licenseNumber && <span>This field is required</span>}
-                </div>
-                <div>
-                    <input type="checkbox" id="termsAndConditions" {...register('termsAndConditions', { required: true })} />
-                    <label htmlFor="termsAndConditions">I agree to the terms and conditions</label>
-                    {errors.termsAndConditions && <span>This field is required</span>}
-                </div>
-                <button type="submit" disabled={Object.keys(errors).length > 0}>Register</button>
-            </form>
-            <p>Already have an account? <a href="/login">Login</a></p>
+  return (
+    <div className="flex flex-col">
+      <div className="mx-auto">
+        <h1>Register</h1>
+      </div>
+      <form
+        className="flex flex-col w-full mt-4 space-y-4"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <div className="flex w-full">
+          <input
+            className="w-full h-10 border-2 border-gray-300 bg-transparent placeholder-gray-500"
+            type="text"
+            id="fullName"
+            placeholder="Full Name"
+            {...register("fullName", { required: true })}
+          />
+          {errors.fullName && <span>This field is required</span>}
         </div>
-    );
+        <div className="flex w-full space-x-4">
+          <div className="flex w-full">
+            <input
+              className="w-full h-10 border-2 border-gray-300 bg-transparent placeholder-gray-500"
+              type="password"
+              id="password"
+              placeholder="Password"
+              {...register("password", { required: true })}
+            />
+            {errors.password && <span>This field is required</span>}
+          </div>
+          <div className="flex w-full">
+            <input
+              className="w-full h-10 border-2 border-gray-300 bg-transparent placeholder-gray-500"
+              type="password"
+              id="confirmPassword"
+              placeholder="Confirm Password"
+              {...register("confirmPassword", { required: true })}
+            />
+            {errors.confirmPassword && <span>This field is required</span>}
+          </div>
+        </div>
+        <div className="flex w-full space-x-4">
+          <div className="flex flex-col w-full">
+            <input
+              className="w-full h-10 border-2 border-gray-300 bg-transparent placeholder-gray-500"
+              type="email"
+              id="email"
+              placeholder="Email"
+              {...register("email", { required: true })}
+            />
+            {errors.email && <span>This field is required</span>}
+          </div>
+          <div className="flex flex-col w-full">
+            <input
+              className="w-full h-10 border-2 border-gray-300 bg-transparent placeholder-gray-500"
+              type="text"
+              id="licenseNumber"
+              placeholder="License Number"
+              {...register("licenseNumber", { required: true })}
+            />
+            {errors.licenseNumber && <span>This field is required</span>}
+          </div>
+        </div>
+        <div className="flex flex-row space-x-4 align-left">
+          <input
+            className="border-2 border-gray-300 bg-transparent"
+            type="checkbox"
+            id="termsAndConditions"
+            {...register("termsAndConditions", { required: true })}
+          />
+          <label htmlFor="termsAndConditions">
+            I agree to the terms and conditions
+          </label>
+          {errors.termsAndConditions && <span>This field is required</span>}
+        </div>
+        <button
+          className="bg-primary text-white uppercase h-[40px]"
+          type="submit"
+          disabled={Object.keys(errors).length > 0}
+        >
+          Register
+        </button>
+      </form>
+
+      <div className="flex mt-2">
+        Already have an account? <Link className="mx-2 text-primary underline" href="/">Login</Link>
+      </div>
+    </div>
+  );
 };
 
 export default RegisterForm;
